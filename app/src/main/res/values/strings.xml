@@ -5,4 +5,5 @@
     <string name="AQI_index">AQI指数</string>
     <string name="PM25_index">PM25指数</string>
     <string name="life_advice">生活建议</string>
+    <string name="change_city">切换</string>
 </resources>
