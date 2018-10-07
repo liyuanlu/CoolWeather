@@ -1,14 +1,20 @@
 package com.example.machenike.coolweather.util;
 
 import android.text.TextUtils;
+import android.util.JsonToken;
+import android.util.Log;
 
 import com.example.machenike.coolweather.db.City;
 import com.example.machenike.coolweather.db.County;
 import com.example.machenike.coolweather.db.Province;
+import com.example.machenike.coolweather.gson.Weather;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static android.content.ContentValues.TAG;
 
 public class Utility {
 
@@ -81,6 +87,36 @@ public class Utility {
             }
         }
         return false;
+    }
+
+    /**
+     * 将返回的JSON数据解析成Weather实体类
+     * @param response
+     * @return
+     */
+    public static Weather handleWeatherResponse(String response){
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
+            String weatherContent = jsonArray.getJSONObject(0).toString();
+            Weather weather = new Gson().fromJson(weatherContent,Weather.class);
+            if (weather == null){
+                Log.d(TAG, "handleWeatherResponse: weather is null");
+            }
+            return weather;
+        } catch (JSONException e) {
+            Log.d(TAG, "handleWeatherResponse: new weather error");
+            e.printStackTrace();
+        }
+        Log.d(TAG, "handleWeatherResponse: weather isnot init");
+        return null;
+    }
+
+    public static String JSONTokener(String in){
+        if (in != null && in.startsWith("\ufeff")){
+            in = in.substring(1);
+        }
+        return in;
     }
 
 }
