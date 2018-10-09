@@ -2,7 +2,9 @@ package com.example.machenike.coolweather;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -122,6 +124,9 @@ public class ChooseAreaFragment extends Fragment {
                         activity.drawerLayout.closeDrawers();
                         activity.swipeRefreshLayout.setRefreshing(true);
                         activity.requestWeather(weatherId);
+                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
+                        editor.putString("anotherWeatherID",weatherId);
+                        editor.apply();
                     }
                 }
             }
